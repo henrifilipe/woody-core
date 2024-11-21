@@ -11,8 +11,7 @@
             "main.scss",
             "tourism.scss",
             "admin.scss",
-            "print.scss",
-            "wicon.scss"
+            "print.scss"
         ],
         "light_entry": [
             "main.scss"
@@ -27,8 +26,7 @@
             "vendor/woody-wordpress-pro/woody-library/assets/scss",
             "vendor/woody-wordpress/woody-library/assets/scss",
             "web/app/plugins/woody-plugin/src/Modules",
-            "web/app/themes",
-            "web/app/themes/WP_SITE_KEY"
+            "web/app/themes"
         ],
         "extensions": "*.+(sass|scss|css)"
     },

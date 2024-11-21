@@ -43,7 +43,7 @@ gulp.task('watch_compile', done => {
                 gulp.watch(
                     [src, '!' + config.dist],
                     { interval: 1000, usePolling: true },
-                    gulp.series(task)
+                    gulp.series(task, 'size')
                 );
             });
 
@@ -57,7 +57,7 @@ gulp.task('watch_compile', done => {
             gulp.watch(
                 [src, '!' + config.dist],
                 { interval: 1000, usePolling: true },
-                gulp.series(task)
+                gulp.series(task, 'size')
             );
         } else if (Array.isArray(config[task].src)) {
             config[task].src.forEach(function (part) {
@@ -65,7 +65,7 @@ gulp.task('watch_compile', done => {
                 gulp.watch(
                     [part, '!' + config.dist],
                     { interval: 1000, usePolling: true },
-                    gulp.series(task)
+                    gulp.series(task, 'size')
                 );
             });
         } else {
@@ -73,7 +73,7 @@ gulp.task('watch_compile', done => {
             gulp.watch(
                 [config[task].src, '!' + config.dist],
                 { interval: 1000, usePolling: true },
-                gulp.series(task)
+                gulp.series(task, 'size')
             );
         }
     });

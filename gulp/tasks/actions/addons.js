@@ -43,13 +43,13 @@ gulp.task('addons_symlink', done => {
 
                 try {
                     if (fs.existsSync(source)) {
-                        console.log(source, '>', target);
+                        // console.log(source, '>', target);
                         gulp
                             .src(source)
                             .pipe(gulp.symlink(target));
                     }
                 } catch (err) {
-                    console.error('!', source, '>', target);
+                    // console.log('!', source, '>', target);
                 }
             });
         })

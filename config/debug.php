@@ -18,21 +18,21 @@ if (extension_loaded('newrelic') && defined('WOODY_CORE_REVISION') && defined('W
 }
 
 /**
- * PHP Debug
+ * PHP Console
  */
-function wd($val, $level = 'debug')
+function wd($val, $tag = null)
 {
-    do_action('qm/' . $level, $val);
+    if (WP_ENV == 'dev') {
+        if (!class_exists('PC', false) && class_exists('PhpConsole', false)) {
+            PhpConsole\Helper::register();
+        }
+
+        if (class_exists('PC', false)) {
+            PC::debug($val, $tag);
+        }
+    }
 }
 
-function rcd($val)
-{
-    wd($val);
-}
-
-/**
- * console_log
- */
 function console_log($output, $tag = 'Say my name, say my name', $with_script_tags = true)
 {
     if (WP_ENV == 'dev') {
@@ -40,7 +40,25 @@ function console_log($output, $tag = 'Say my name, say my name', $with_script_ta
         if ($with_script_tags) {
             $js_code = '<script>' . $js_code . '</script>';
         }
-
         echo $js_code;
+    }
+}
+
+/**
+ * @param  [type] $val     [Valeur à debug]
+ * @param  bool   $exit    [Force l'affichage du debug si vrai]
+ */
+function rcd($val, $exit = false, $pre = true)
+{
+    if ($pre) {
+        print '<pre style="background:lightblue">';
+    }
+    print_r($val);
+    if ($pre) {
+        print '</pre>';
+    }
+
+    if ($exit) {
+        exit();
     }
 }

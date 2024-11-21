@@ -14,7 +14,7 @@ use Roots\WPConfig\Config;
 /**
  * Directory containing all of the site's files
  */
-define('WP_ROOT_DIR', preg_replace('/releases\/\d*/', 'current', dirname(__DIR__)));
+define('WP_ROOT_DIR', preg_replace('/releases\\/[0-9]*/', 'current', dirname(__DIR__)));
 define('WP_WEBROOT_DIR', WP_ROOT_DIR . '/web');
 define('WP_VENDOR_DIR', WP_ROOT_DIR . '/vendor');
 define('WP_CACHE_DIR', WP_ROOT_DIR . '/cache');
@@ -31,7 +31,8 @@ define('WP_SITE_KEY', env('WP_SITE_KEY'));
 function array_env($env)
 {
     $env = str_replace(array('[', ']', '"', ' '), '', env($env));
-    return (empty($env)) ? [] : explode(',', $env);
+    $env = (!empty($env)) ? explode(',', $env) : [];
+    return $env;
 }
 
 if (file_exists(WP_ROOT_DIR . '/config/sites/' . WP_SITE_KEY . '/.env')) {
@@ -152,8 +153,6 @@ Config::define('WOODY_CLOUDFLARE_ENABLE', env('WOODY_CLOUDFLARE_ENABLE') ?: fals
 Config::define('WOODY_CLOUDFLARE_TOKEN', env('WOODY_CLOUDFLARE_TOKEN') ?: '');
 Config::define('WOODY_CLOUDFLARE_URL', env('WOODY_CLOUDFLARE_URL') ?: '');
 Config::define('WOODY_CLOUDFLARE_ZONE', env('WOODY_CLOUDFLARE_ZONE') ?: '');
-Config::define('WOODY_DEEPL_KEY', env('WOODY_DEEPL_KEY') ?: '');
-Config::define('WOODY_DEEPL_DOMAIN', env('WOODY_DEEPL_DOMAIN') ?: '');
 Config::define('WOODY_GOOGLE_MAPS_API_KEY', array_env('WOODY_GOOGLE_MAPS_API_KEY') ?: []);
 Config::define('WOODY_GOOGLE_MAPS_API_KEY_PROD', array_env('WOODY_GOOGLE_MAPS_API_KEY_PROD') ?: []);
 Config::define('WOODY_GTM', env('WOODY_GTM') ?: '');
@@ -176,15 +175,13 @@ Config::define('WOODY_VARNISH_CACHING_COOKIE', env('WOODY_VARNISH_CACHING_COOKIE
 Config::define('WOODY_VARNISH_CACHING_DEBUG', env('WOODY_VARNISH_CACHING_DEBUG') ?: false);
 Config::define('WOODY_VARNISH_CACHING_ENABLE', env('WOODY_VARNISH_CACHING_ENABLE') ?: false);
 Config::define('WOODY_VARNISH_CACHING_IPS', env('WOODY_VARNISH_CACHING_IPS') ?: '');
-Config::define('WOODY_VARNISH_CACHING_TTL', env('WOODY_VARNISH_CACHING_TTL') ?: 2_592_000);
-Config::define('WOODY_VARNISH_CACHING_TTL_FOCUS', env('WOODY_VARNISH_CACHING_TTL_FOCUS') ?: 604_800);
+Config::define('WOODY_VARNISH_CACHING_TTL', env('WOODY_VARNISH_CACHING_TTL') ?: 2592000);
 Config::define('WOODY_VARNISH_CACHING_TTL_FOCUSRANDOM', env('WOODY_VARNISH_CACHING_TTL_FOCUSRANDOM') ?: 86400);
-Config::define('WOODY_VARNISH_CACHING_TTL_FOCUSSHEET', env('WOODY_VARNISH_CACHING_TTL_FOCUSSHEET') ?: 10800);
+Config::define('WOODY_VARNISH_CACHING_TTL_FOCUSSHEET', env('WOODY_VARNISH_CACHING_TTL_FOCUSSHEET') ?: 43200);
 Config::define('WOODY_VARNISH_CACHING_TTL_LIVEPAGE', env('WOODY_VARNISH_CACHING_TTL_LIVEPAGE') ?: 900);
 Config::define('WOODY_VARNISH_CACHING_TTL_WEATHERPAGE', env('WOODY_VARNISH_CACHING_TTL_WEATHERPAGE') ?: 21600);
-Config::define('WOODY_VARNISH_CACHING_TTL_HAWWWAI_SHEET', env('WOODY_VARNISH_CACHING_TTL_HAWWWAI_SHEET') ?: 2_592_000);
+Config::define('WOODY_VARNISH_CACHING_TTL_HAWWWAI_SHEET', env('WOODY_VARNISH_CACHING_TTL_HAWWWAI_SHEET') ?: 2592000);
 Config::define('WOODY_VARNISH_CACHING_TTL_HAWWWAI_PLAYLIST', env('WOODY_VARNISH_CACHING_TTL_HAWWWAI_PLAYLIST') ?: 43200);
-Config::define('WOODY_VARNISH_CACHING_TTL_HAWWWAI_PLAYLIST_FMA', env('WOODY_VARNISH_CACHING_TTL_HAWWWAI_PLAYLIST_FMA') ?: 10800);
 Config::define('WOODY_ERP_PARTNERID', env('WOODY_ERP_PARTNERID') ?: 0);
 Config::define('WOODY_DESTINATION_CONNECT_KEY', env('WOODY_DESTINATION_CONNECT_KEY') ?: '');
 
@@ -200,11 +197,8 @@ Config::define('ROADBOOK_ACCESS_TOKEN', "7qmvHP$*Jpu')%:S");
 Config::define('WOODY_HAWWWAI_SHEET', env('WOODY_HAWWWAI_SHEET') ?: false);
 
 /**
- * SMTP informations
+ * MailJet informations
  */
-Config::define('WOODY_SMTP_HOSTNAME', env('WOODY_SMTP_HOSTNAME') ?: '');
-Config::define('WOODY_SMTP_PORT', env('WOODY_SMTP_PORT') ?: 587);
-Config::define('WOODY_SMTP_SECURE', env('WOODY_SMTP_SECURE') ?: 'tls');
 Config::define('WOODY_SMTP_USERNAME', env('WOODY_SMTP_USERNAME') ?: '');
 Config::define('WOODY_SMTP_PASSWORD', env('WOODY_SMTP_PASSWORD') ?: '');
 Config::define('WOODY_SMTP_SENDER', env('WOODY_SMTP_SENDER') ?: '');
@@ -281,19 +275,19 @@ if (!defined('ABSPATH')) {
 /**
  * lock mode
  */
-require_once(__DIR__ . '/lock.php');
+require_once('lock.php');
 
 /**
  * maintenance mode
  */
-require_once(__DIR__ . '/maintenance.php');
+require_once('maintenance.php');
 
 /**
  * debug functions
  */
-require_once(__DIR__ . '/debug.php');
+require_once('debug.php');
 
 /**
  * output functions
  */
-require_once(__DIR__ . '/output.php');
+require_once('output.php');

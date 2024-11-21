@@ -19,7 +19,7 @@ const mode = require('../lib/mode');
 
 const entries = mode.light ? config.css.light_entry : config.css.entry;
 // Create path
-config.css.modules.forEach(function (part, index, array) {
+config.css.modules.forEach(function(part, index, array) {
     array[index] = path.resolve(
         config.core,
         part.replace('WP_SITE_KEY', mode.site_key)
@@ -28,21 +28,13 @@ config.css.modules.forEach(function (part, index, array) {
 
 gulp.task('css_clean', done => {
     let filesPaths = [];
-
-    if (mode.light) {
-        entries.forEach(entry => {
-            filesPaths.push(path.resolve(config.dist, config.css.dist, entry.replace('.scss', '.css')));
-            filesPaths.push(path.resolve(config.dist, config.css.dist, entry.replace('.scss', '-*.css')));
-        });
-    } else {
-        filesPaths.push(path.resolve(config.dist, config.css.dist));
-    }
-
+    entries.forEach(entry => {
+        filesPaths.push(path.resolve(config.dist, config.css.dist, entry.replace('.scss', '.css')));
+        filesPaths.push(path.resolve(config.dist, config.css.dist, entry.replace('.scss', '-*.css')));
+    });
     del.sync(filesPaths, {
         force: true
     });
-
-    // Async signal
     done();
 });
 
@@ -61,7 +53,7 @@ entries.forEach(entry => {
                 gulpif(
                     mode.env == 'dev',
                     plumber({
-                        errorHandler: function (error) {
+                        errorHandler: function(error) {
                             console.log('Error CSS : ' + error.message);
                         }
                     })
@@ -71,7 +63,7 @@ entries.forEach(entry => {
                 gulpif(
                     mode.env != 'dev',
                     plumber({
-                        errorHandler: function (error) {
+                        errorHandler: function(error) {
                             console.log('Error CSS : ' + error.message);
                             process.exit(1);
                         }
